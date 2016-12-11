@@ -10,7 +10,7 @@ configuration:
 platform: Any CPU
 
 before_build:
-  -nuget restore
+  nuget restore
 
 cache:
   - packages -> **\packages.config
