@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using log4net;
 using Topshelf;
 
 namespace IntervalTimer.Service
 {
-    class Program
+    internal class Program
     {
 
-        private static ILog _logger = LogManager.GetLogger(typeof(Program));
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Program));
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
 
             var interval = TimeSpan.FromSeconds(1);
             var job = new SillyJob();
 
-            _logger.Info($"Running {nameof(job)} every {interval}");
+            Logger.Info($"Running {nameof(job)} every {interval}");
 
             var host = HostFactory.New(c =>
             {
@@ -40,15 +39,18 @@ namespace IntervalTimer.Service
 
     }
 
-    class SillyJob
+    internal class SillyJob
     {
         private readonly ILog _logger = LogManager.GetLogger(typeof(SillyJob));
         public void Callback()
         {
-            _logger?.Info($"Callback at {DateTime.Now.ToLongTimeString()}");
-            if (DateTime.Now.Second%5 == 0)
+            var now = DateTime.Now;
+
+            _logger?.Info($"Callback at {now.ToLongTimeString()}");
+
+            if (now.Second%5 == 0)
             {
-                Thread.Sleep(6);
+                Task.Delay(TimeSpan.FromSeconds(6)).Wait();
             }
         }
     }
