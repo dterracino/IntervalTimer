@@ -12,6 +12,9 @@ platform: Any CPU
 before build:
   -nuget restore
 
+cache:
+  - packages -> **\packages.config
+
 assembly_info:
   patch: true
   file: AssemblyInfo.*
@@ -22,5 +25,3 @@ assembly_info:
 build:
   parallel: true
   verbosity: minimal
-
-test: Auto
