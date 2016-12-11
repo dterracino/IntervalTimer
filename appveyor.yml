@@ -9,7 +9,7 @@ configuration:
 
 platform: Any CPU
 
-before build:
+before_build:
   -nuget restore
 
 cache:
